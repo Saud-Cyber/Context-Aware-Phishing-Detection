@@ -1,159 +1,124 @@
 Context-Aware Phishing Detection using Machine Learning and Sender Behavior Analysis
 
-Link : https://phishing-project-fgkpte5dtgxspldaqkhh8e.streamlit.app/
-
-This project implements a context-aware phishing detection system that combines email content analysis with sender behavioral profiling. Unlike traditional text-only phishing detectors, this system integrates linguistic features, structural indicators, and sender trust history to produce a more informed and explainable prediction.
+Live Demo:
+https://phishing-project-fgkpte5dtgxspldaqkhh8e.streamlit.app/
 
 Overview
 
-Phishing emails attempt to trick users into revealing sensitive information such as passwords, financial details, or confidential data. Modern phishing attacks often use well-written and professional language, making text-only detection models less reliable. Many systems focus purely on email content and ignore who is sending the email and how that sender has behaved historically.
+This project presents a context-aware phishing detection system that enhances traditional approaches by combining email content analysis with sender behavioral profiling.
 
-This project addresses that gap by incorporating both content-based features and sender behavior into a unified classification framework.
+Conventional phishing detection systems rely heavily on textual features, making them vulnerable to modern phishing emails that are often well-crafted and linguistically convincing. This project addresses that limitation by incorporating who the sender is and how they have behaved historically, resulting in a more robust, accurate, and explainable detection mechanism.
 
-Core Idea
+Core Concept
 
-The system operates on two main pillars:
+The system is built upon two fundamental dimensions:
 
-What the email says
+Content Analysis → What the email communicates
+Behavioral Analysis → Who the sender is and their historical trust pattern
 
-Who is sending it and how they have behaved before
+Email content is transformed into numerical representations using TF-IDF vectorization, while structural and behavioral features are extracted to provide deeper context.
 
-Email content is processed using a TF-IDF vectorizer to convert text into numerical features. Structural characteristics such as number of URLs, presence of IP-based links, suspicious top-level domains, exclamation frequency, uppercase ratio, and urgency-related language are extracted. Additionally, a dynamic sender trust score is computed based on historical behavior. These features are combined and fed into a trained machine learning model to classify the email as phishing or legitimate.
+These combined features enable the model to make more informed and context-rich predictions, significantly improving phishing detection performance.
 
 System Architecture
 
-The pipeline follows these steps:
+The detection pipeline consists of the following stages:
 
-Text Vectorization
-The email body is transformed using a trained TF-IDF vectorizer.
+1. Text Vectorization
 
-Structural Feature Extraction
-The system extracts measurable risk indicators from the raw email content, including:
+The email body is converted into feature vectors using a pre-trained TF-IDF vectorizer, capturing important linguistic patterns.
+
+2. Structural Feature Extraction
+
+The system derives multiple risk indicators from the email, including:
 
 Number of URLs
-
 Number of unique domains
-
-Presence of IP-based URLs
-
-Suspicious top-level domains
-
-Exclamation mark frequency
-
+Presence of IP-based links
+Suspicious top-level domains (TLDs)
+Frequency of exclamation marks
 Uppercase character ratio
+Presence of urgency-driven keywords
+3. Sender Trust Modeling
 
-Urgency-related keywords
+A dynamic sender trust score is computed using historical data:
 
-Sender Trust Modeling
-A sender trust score is retrieved from historical statistics. If the sender has no history, a global prior is assigned. This models real-world cold-start scenarios.
+Known senders → Assigned trust based on past behavior
+Unknown senders → Assigned a global prior (cold-start handling)
+4. Feature Fusion
 
-Feature Fusion
-Text features and scaled numeric features are combined into a single feature vector.
+Textual and numerical features are combined into a unified feature vector after appropriate scaling.
 
-Classification
-A trained machine learning model outputs the phishing probability and final prediction.
+5. Classification
 
-Explainability
-The Streamlit interface displays:
-
-Risk level
+A trained machine learning model predicts:
 
 Phishing probability
+Final classification (Phishing / Legitimate)
+6. Explainability Layer
 
+The system enhances transparency through:
+
+Risk level indicators
+Phishing probability score
 Sender trust level
-
-Reasons for flagging
-
+Detailed reasoning behind classification
 Structural feature radar visualization
 
 Technologies Used
-
 Python
-
 Streamlit
-
 Scikit-learn
-
 NumPy
-
 SciPy
-
 Matplotlib
-
 Joblib
 
 Project Structure
-
-app.py
-Main Streamlit application
-
-model_context_aware.pkl
-Trained classification model
-
-tfidf_vectorizer.pkl
-Trained TF-IDF vectorizer
-
-sender_scaler.pkl
-Feature scaler for numeric attributes
-
-sender_trust_scores.pkl
-Dictionary containing sender trust scores
-
-requirements.txt
-Python dependencies
+app.py                      # Main Streamlit application  
+model_context_aware.pkl    # Trained ML model  
+tfidf_vectorizer.pkl       # TF-IDF vectorizer  
+sender_scaler.pkl          # Feature scaler  
+sender_trust_scores.pkl    # Sender trust database  
+requirements.txt           # Dependencies  
 
 How to Run Locally
-
 Clone the repository
-
-Install dependencies
+Install dependencies:
 pip install -r requirements.txt
-
-Run the application
+Run the application:
 streamlit run app.py
 
-The app will open in your browser and allow interactive email testing.
+The application will launch in your browser, enabling real-time email analysis.
 
 Deployment
 
-The application is deployable on Streamlit Cloud. All required model artifacts are included in the repository. Ensure that the .pkl files remain in the root directory if using the current configuration.
+The project is deployed using Streamlit Cloud.
+All required model artifacts are included in the repository. Ensure .pkl files remain in the root directory for proper execution.
 
 Key Features
-
-Context-aware classification
-
-Behavioral sender profiling
-
-Cold-start handling
-
-Structural risk analysis
-
-Visual explanation dashboard
-
-Real-time probability scoring
+Context-aware phishing detection
+Integration of sender behavioral profiling
+Cold-start problem handling
+Structural and linguistic risk analysis
+Interactive visualization dashboard
+Real-time prediction with probability scoring
 
 Limitations
+Sender trust scores depend on historical data availability
+No integration with live email servers
+Model performance is dataset-dependent
+Limited capability against zero-day phishing attacks
 
-Trust scores depend on available historical data
-
-No live email server integration
-
-Model performance depends on training dataset quality
-
-Does not detect zero-day phishing strategies outside learned patterns
-
-Future Improvements
-
-Live sender reputation APIs
-
-Advanced explainability using SHAP
-
-Adaptive threshold tuning
-
-Real-time monitoring integration
-
-Enterprise-level logging and audit trails
+Future Enhancements
+Integration with live sender reputation APIs
+Advanced explainability using SHAP/LIME
+Adaptive threshold tuning for improved accuracy
+Real-time monitoring and alert systems
+Enterprise-grade logging and audit mechanisms
 
 Conclusion
 
-This project demonstrates how integrating sender behavior with linguistic and structural analysis can improve phishing detection beyond traditional text-only approaches. It provides a practical and explainable implementation of context-aware email security using machine learning.
+This project demonstrates the effectiveness of combining linguistic analysis, structural indicators, and sender behavior modeling to build a more intelligent and explainable phishing detection system.
+
+By moving beyond traditional text-only approaches, it highlights a practical direction for next-generation email security solutions powered by machine learning.
